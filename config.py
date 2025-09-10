@@ -5,3 +5,5 @@ class Config:
     UPLOAD_FOLDER = 'uploads/'
     ALLOWED_EXTENSIONS = {'py'}
     OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
+    RESULTS_FOLDER = 'results/'
+    BACKTEST_RESULTS_FOLDER = 'results/backtest'

@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="tabs card">
+  <button id="tabAnalyze" class="tab active">Analyze</button>
+  <button id="tabExplain" class="tab">Explain</button>
+  <button id="tabBacktest" class="tab">Backtest</button>
+</div>
+
+<div class="grid">
+  <section class="card">
+    <h2>Paste Strategy Code</h2>
+    <textarea id="code" placeholder="Paste your Python trading strategy (Backtrader/bt/Pandas)…"></textarea>
+    <div class="row">
+      <button id="runBtn">Run</button>
+      <span id="status" class="status muted"></span>
+    </div>
+    <div class="row" style="margin-top:8px;">
+      <button id="downloadBtn" class="btn-secondary">Download Report</button>
+      <span class="muted">Includes parsed IR, LLM explanation, and (if Backtest tab active) a quick backtest.</span>
+    </div>
+    <p class="muted">Tabs: <strong>Analyze</strong> = parser only, <strong>Explain</strong> = parser + LLM, <strong>Backtest</strong> = quick demo backtest.</p>
+  </section>
+
+  <section class="card">
+    <h2>Or Upload .py File</h2>
+    <input id="file" type="file" accept=".py" />
+    <div class="row">
+      <button id="uploadBtn">Upload File</button>
+      <span id="uploadStatus" class="status muted"></span>
+    </div>
+
+    <div id="backtestInputs" class="backtest-inputs" hidden>
+      <h3 style="margin-top:16px;">Backtest Settings</h3>
+      <div class="form-grid">
+        <label>Symbol
+          <input id="btSymbol" type="text" value="SPY" />
+        </label>
+        <label>Start (YYYY-MM-DD)
+          <input id="btStart" type="text" value="2018-01-01" />
+        </label>
+        <label>End (optional)
+          <input id="btEnd" type="text" placeholder="YYYY-MM-DD" />
+        </label>
+        <label>Initial Cash
+          <input id="btCash" type="number" value="100000" />
+        </label>
+        <label style="display:flex; align-items:center; gap:8px;">
+          <input id="btAllowShorts" type="checkbox" />
+          Allow shorting
+        </label>
+      </div>
+    </div>
+  </section>
+</div>
+
+<section class="card">
+  <h2>Parsed Result</h2>
+  <pre id="parsed">(results will appear here)</pre>
+</section>
+
+<section class="card">
+  <h2>LLM Explanation</h2>
+  <div id="explanation" class="md"></div>
+</section>
+
+<section class="card" id="backtestPanel" hidden>
+  <h2>Backtest Results</h2>
+  <div id="btMetrics"></div>
+  <div id="btChartWrap" class="chart-wrap">
+    <img id="btChart" alt="Equity Curve" />
+  </div>
+  <details style="margin-top:10px;">
+    <summary>Daily Series (first 20 rows)</summary>
+    <pre id="btDaily"></pre>
+  </details>
+</section>
+
+{% endblock %}
