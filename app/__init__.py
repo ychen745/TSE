@@ -1,9 +1,9 @@
 import os
 from flask import Flask, render_template
-from routes.upload_routes import upload_bp
-from routes.analyze_routes import analyze_bp
-from routes.backtest_routes import backtest_bp
-from routes.report_route import report_bp
+from app.routes.analyze_routes import analyze_bp
+from app.routes.backtest_routes import backtest_bp
+from app.routes.report_route import report_bp
+from app.routes.upload_routes import upload_bp
 
 # to avoid multithreading issue with MacOS matploglib backend
 os.environ.setdefault("MPLBACKEND", "Agg")
@@ -11,7 +11,11 @@ import matplotlib
 matplotlib.use("Agg", force=True)
 
 def create_app():
-    app = Flask(__name__)
+    app = Flask(
+        __name__,
+        static_folder='static',
+        template_folder='templates'
+    )
     app.url_map.strict_slashes = False
     app.config.from_object('config.Config')
 
