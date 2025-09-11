@@ -2,7 +2,7 @@ from __future__ import annotations
 from flask import Blueprint, request, jsonify, send_file, current_app
 from io import BytesIO
 
-from app.parsers import parse_strategy
+from app.parsers.strategy_parser import parse_strategy
 from app.services.report_service import build_report_bytes
 
 # Optional services if you want the route to auto-run explain/backtest:

@@ -1,6 +1,6 @@
 from __future__ import annotations
 from flask import Blueprint, request, jsonify
-from app.parsers import parse_strategy
+from app.parsers.strategy_parser import parse_strategy
 from app.services.backtest_bt_service import run_real_backtest
 
 backtest_bp = Blueprint("backtest", __name__)

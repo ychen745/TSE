@@ -3,7 +3,7 @@ from __future__ import annotations
 import os
 from flask import Blueprint, request, jsonify, current_app
 
-from app.parsers import parse_strategy
+from app.parsers.strategy_parser import parse_strategy
 
 # If you're using the server-side renderer version:
 #   explain_strategy_html -> returns {"markdown": "...", "html": "..."}
