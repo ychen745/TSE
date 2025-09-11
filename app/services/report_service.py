@@ -1,9 +1,9 @@
 # services/report_service.py
 from __future__ import annotations
-import io, datetime as dt
-from typing import Dict, Any, Optional, Tuple
+import datetime as dt
+from typing import Dict, Any, Tuple
 
-from services.markdown_service import md_to_safe_html
+from app.services.markdown_service import md_to_safe_html
 
 # ---- Simple CSS for the standalone HTML report ----
 _REPORT_CSS = """

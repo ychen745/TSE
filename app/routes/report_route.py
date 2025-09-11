@@ -2,17 +2,17 @@ from __future__ import annotations
 from flask import Blueprint, request, jsonify, send_file, current_app
 from io import BytesIO
 
-from parsers.strategy_parser import parse_strategy
-from services.report_service import build_report_bytes
+from app.parsers import parse_strategy
+from app.services.report_service import build_report_bytes
 
 # Optional services if you want the route to auto-run explain/backtest:
 try:
-    from services.llm_service import explain_strategy_html
+    from app.services.llm_service import explain_strategy_html
 except Exception:
     explain_strategy_html = None
 
 try:
-    from services.backtest_service import run_quick_backtest, BtConfig
+    from app.services.backtest_service import run_quick_backtest, BtConfig
 except Exception:
     run_quick_backtest, BtConfig = None, None
 

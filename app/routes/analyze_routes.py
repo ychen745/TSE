@@ -3,15 +3,15 @@ from __future__ import annotations
 import os
 from flask import Blueprint, request, jsonify, current_app
 
-from parsers.strategy_parser import parse_strategy
+from app.parsers import parse_strategy
 
 # If you're using the server-side renderer version:
 #   explain_strategy_html -> returns {"markdown": "...", "html": "..."}
 try:
-    from services.llm_service import explain_strategy_html as _explain
+    from app.services.llm_service import explain_strategy_html as _explain
 except Exception:
     try:
-        from services.llm_service import explain_strategy_md as _explain
+        from app.services.llm_service import explain_strategy_md as _explain
     except Exception:
         _explain = None
 
@@ -92,7 +92,7 @@ def analyze_and_explain():
         if isinstance(rendered, str):
             md = rendered
             try:
-                from services.llm_service import md_to_safe_html
+                from app.services.llm_service import md_to_safe_html
                 html = md_to_safe_html(md)
             except Exception:
                 html = ""

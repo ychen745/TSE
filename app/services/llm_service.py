@@ -5,7 +5,7 @@ from dotenv import load_dotenv, find_dotenv
 from typing import Dict, Any
 from langchain_openai import ChatOpenAI
 from langchain.prompts import ChatPromptTemplate
-from services.markdown_service import md_to_safe_html
+from app.services.markdown_service import md_to_safe_html
 
 _ = load_dotenv(find_dotenv())
 MODEL = os.getenv("OPENAI_MODEL", "gpt-4o-mini")

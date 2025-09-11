@@ -1,6 +1,6 @@
 from __future__ import annotations
 from typing import Dict, Any
-from services.engine_bt import run_backtrader_ir, BtExecConfig
+from app.services.engine_bt import run_backtrader_ir, BtExecConfig
 
 def run_real_backtest(strategy_ir: Dict[str,Any],
                       symbol: str="SPY",
