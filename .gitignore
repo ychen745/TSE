@@ -7,3 +7,4 @@ results
 test*
 .DS_Store
 .secrets
+results.txt

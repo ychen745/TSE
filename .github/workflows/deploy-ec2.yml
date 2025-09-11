@@ -15,38 +15,50 @@ jobs:
       - uses: actions/setup-python@v5
         with: { python-version: "3.13" }
 
-      - name: Run tests (optional)
+      - name: Run tests
         run: |
           python -m pip install -U pip
           pip install -r requirements.txt
           pytest -q || true
 
+      # --- LOCAL BUILD (for act) ---
+      - name: Local Docker build (act only)
+        if: env.ACT == 'true'
+        run: |
+          docker build -t tse:local .
+          echo "IMAGE_URI=tse:local" >> $GITHUB_ENV
+
+      # --- CLOUD AWS STEPS (skip on act) ---
       - name: Configure AWS credentials (OIDC → assume role)
+        if: env.ACT != 'true'
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: ${{ secrets.AWS_REGION }}
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
 
       - name: Login to ECR
+        if: env.ACT != 'true'
         uses: aws-actions/amazon-ecr-login@v2
 
       - name: Build & push image to ECR
+        if: env.ACT != 'true'
         env:
           AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
           AWS_REGION: ${{ secrets.AWS_REGION }}
-          ECR_REPO: ${{ secrets.ECR_REPO }}   # e.g., tse
+          ECR_REPO: ${{ secrets.ECR_REPO }}
         run: |
           IMAGE_URI=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO:${{ github.sha }}
           docker build -t $IMAGE_URI .
           docker push $IMAGE_URI
           echo "IMAGE_URI=$IMAGE_URI" >> $GITHUB_ENV
 
-      - name: SSH deploy to EC2 (pull & restart)
+      - name: SSH deploy to EC2
+        if: env.ACT != 'true'
         uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}     # e.g., ubuntu
-          key: ${{ secrets.EC2_SSH_KEY }}       # private key contents
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | \
               docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
