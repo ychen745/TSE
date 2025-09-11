@@ -25,6 +25,10 @@ def create_app():
     def index():
         return render_template('index.html')
 
+    @app.route("/healthz")
+    def healthz():
+        return {"status": "ok"}, 200
+
     return app
 
 if __name__ == '__main__':

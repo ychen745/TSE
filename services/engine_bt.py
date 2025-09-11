@@ -17,6 +17,8 @@ import matplotlib.pyplot as plt
 import backtrader as bt
 import ast
 
+_NON_INDICATORS = {"position"}
+
 # =========================
 # Config
 # =========================
@@ -38,7 +40,6 @@ class BtExecConfig:
         if self.overrides is None:
             self.overrides = {}
 
-# --- add this helper near the top of engine_bt.py, alongside other helpers ---
 def _labels_from_cond_text(text: str) -> set[str]:
     """
     Extract label-like tokens from a condition string, e.g.
@@ -410,7 +411,7 @@ class IRStrategy(bt.Strategy):
         self._exit_conds  = []
         self._short_entry_conds = []
 
-        # Pre-warm indicators so they attach to the data before next()
+        # Pre-warm indicators
         needed = set()
 
         # from explicit IR indicator list (if provided)
@@ -420,10 +421,11 @@ class IRStrategy(bt.Strategy):
         # from entry/exit rule texts
         for r in (self._ir.get("entry_rules", []) + self._ir.get("exit_rules", [])):
             when = r.get("when", "")
+            # union of default labels and labels from the text
             needed |= _labels_from_cond_text(when)
 
         # Remove pseudo-variables that aren't indicators
-        for bad in ("position",):
+        for bad in _NON_INDICATORS:
             if bad in needed:
                 needed.remove(bad)
 
