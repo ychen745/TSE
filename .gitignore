@@ -6,3 +6,4 @@ test.json
 results
 test*
 .DS_Store
+.secrets
