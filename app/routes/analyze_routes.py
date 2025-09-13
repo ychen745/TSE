@@ -5,9 +5,8 @@ from flask import Blueprint, request, jsonify, current_app
 from flask_login import login_required
 
 from app.parsers.strategy_parser import parse_strategy
+# from app.services.llm_service import explain_strategy_html as _explain
 
-# If you're using the server-side renderer version:
-#   explain_strategy_html -> returns {"markdown": "...", "html": "..."}
 try:
     from app.services.llm_service import explain_strategy_html as _explain
 except Exception:

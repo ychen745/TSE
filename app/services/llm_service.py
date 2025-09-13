@@ -47,6 +47,7 @@ Return Markdown with EXACT sections and minimal wording:
 """
 )
 
+
 def _key(d: Dict[str, Any]) -> str:
     return hashlib.sha256(json.dumps(d, sort_keys=True, ensure_ascii=False).encode("utf-8")).hexdigest()
 
@@ -74,3 +75,31 @@ def explain_strategy_html(strategy_ir: Dict[str, Any]) -> Dict[str, str]:
     out = {"markdown": md, "html": html}
     _CACHE[k] = out
     return out
+
+#
+# ir = {
+#     "entry_rules": [
+#         {
+#           "action": "BUY",
+#           "when": "SMA(20) > SMA(50) AND NOT (position)"
+#         }
+#     ],
+#     "exit_rules": [
+#         {
+#             "action": "SELL",
+#             "when": "SMA(20) < SMA(50) AND position"
+#         }
+#     ],
+#     "framework": "backtrader",
+#     "indicators": [
+#         "SMA(50)",
+#         "SMA(20)"
+#     ],
+#     "meta": {},
+#     "risk_rules": []
+# }
+#
+# j = json.dumps(ir, separators=(",", ":"), ensure_ascii=False)
+# msgs = _PROMPT.format_messages(j=j)
+# resp = _llm.invoke(msgs)
+# print(resp.content)

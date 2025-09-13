@@ -7,9 +7,12 @@ from app.services.report_service import build_report_bytes
 
 # Optional services if you want the route to auto-run explain/backtest:
 try:
-    from app.services.llm_service import explain_strategy_html
+    from app.services.llm_service import explain_strategy_html as _explain
 except Exception:
-    explain_strategy_html = None
+    try:
+        from app.services.llm_service import explain_strategy_md as _explain
+    except Exception:
+        _explain = None
 
 try:
     from app.services.backtest_service import run_quick_backtest, BtConfig
@@ -56,10 +59,10 @@ def build_report():
     # Explanation
     explanation_md = None
     if include_explain:
-        if not explain_strategy_html:
+        if not _explain:
             return _json_error("LLM service not available for explanation.", 501)
         try:
-            rendered = explain_strategy_html(ir)
+            rendered = _explain(ir)
             explanation_md = (rendered or {}).get("markdown") if isinstance(rendered, dict) else str(rendered)
         except Exception as e:
             current_app.logger.exception("Report explain failed")
