@@ -5,7 +5,7 @@ from flask import Blueprint, request, jsonify, current_app
 from flask_login import login_required
 
 from app.parsers.strategy_parser import parse_strategy
-# from app.services.llm_service import explain_strategy_html as _explain
+from app.services.llm_service import explain_strategy_html as _explain
 
 try:
     from app.services.llm_service import explain_strategy_html as _explain
@@ -14,6 +14,7 @@ except Exception:
         from app.services.llm_service import explain_strategy_md as _explain
     except Exception:
         _explain = None
+
 
 
 analyze_bp = Blueprint("analyze", __name__)

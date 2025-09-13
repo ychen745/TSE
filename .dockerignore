@@ -2,9 +2,9 @@
 __pycache__/
 *.pyc
 .cache/
-.env
 .idea
 .DS_Store
 .secrets
 results
 results.txt
+.env
