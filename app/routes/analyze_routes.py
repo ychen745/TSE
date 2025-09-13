@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import os
 from flask import Blueprint, request, jsonify, current_app
+from flask_login import login_required
 
 from app.parsers.strategy_parser import parse_strategy
 
@@ -71,6 +72,7 @@ def analyze_code():
 # ---------- Explain: parser + LLM ----------
 @analyze_bp.route("/explain", methods=["POST"])   # no trailing slash
 @analyze_bp.route("/explain/", methods=["POST"])  # with trailing slash
+@login_required
 def analyze_and_explain():
     if _explain is None:
         return jsonify({"error": "LLM service not available."}), 501

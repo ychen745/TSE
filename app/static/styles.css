@@ -3,9 +3,16 @@
 * { box-sizing: border-box; }
 html, body { margin:0; padding:0; background:var(--bg); color:var(--text); font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial; }
 
-.site-header { padding:16px 20px; border-bottom:1px solid var(--border); }
+.site-header {
+  padding:16px 20px;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
 .site-header h1 { margin:0; font-size:18px; }
 .accent { color:var(--accent); }
+.nav-right { display:flex; gap:10px; align-items:center; }
 
 .container { max-width:1100px; margin:24px auto 40px; padding:0 16px; }
 
@@ -45,5 +52,18 @@ pre { background:#0b1220; border:1px solid #334155; border-radius:10px; padding:
 .chart-wrap { margin-top:10px; background:#0b1220; border:1px solid #334155; border-radius:10px; padding:8px; display:flex; justify-content:center; }
 #btChart { max-width:100%; height:auto; display:block; }
 
+.btn, .btn-secondary {
+  display:inline-block; padding:8px 12px; border-radius:8px; text-decoration:none;
+  border:1px solid var(--border);
+}
+.btn { background:var(--accent); color:#0b1220; font-weight:600; }
 .btn-secondary { background:#1f2937; color:#e5e7eb; }
+.hide-on-mobile { display:inline-block; }
+@media (max-width: 600px) { .hide-on-mobile { display:none; } }
+
 .btn-secondary:hover { filter: brightness(1.1); }
+
+a.disabled {
+  pointer-events: none;
+  cursor: default;
+}

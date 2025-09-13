@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card" style="max-width:420px; margin:0 auto;">
+  <h2>Sign up</h2>
+  <form method="post" action="{{ url_for('auth.signup_post') }}" class="form-grid">
+    <label>Email <input type="email" name="email" required></label>
+    <label>Password <input type="password" name="password" required></label>
+    <button type="submit" class="btn">Create account</button>
+    <a class="btn-secondary" href="{{ url_for('index') }}" >Cancel</a>
+  </form>
+  <p class="muted" style="margin-top:10px;">Already have an account? <a href="{{ url_for('auth.login_page') }}">Log in</a></p>
+</div>
+{% endblock %}

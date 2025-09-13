@@ -3,7 +3,11 @@
 
 <div class="tabs card">
   <button id="tabAnalyze" class="tab active">Analyze</button>
-  <button id="tabExplain" class="tab">Explain</button>
+    {% if session.get('user_role') == "admin" or session.get('user_role') == "member" %}
+      <button id="tabExplain" class="tab">Explain</button>
+    {% else %}
+      <button id="tabExplain" class="tab" disabled>Explain</button>
+    {% endif %}
   <button id="tabBacktest" class="tab">Backtest</button>
 </div>
 

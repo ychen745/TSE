@@ -8,6 +8,8 @@
       <excludeFolder url="file://$MODULE_DIR$/.venv" />
       <excludeFolder url="file://$MODULE_DIR$/tests" />
       <excludeFolder url="file://$MODULE_DIR$/results" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea/dataSources" />
+      <excludeFolder url="file://$MODULE_DIR$/app/results" />
     </content>
     <orderEntry type="jdk" jdkName="tse" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />

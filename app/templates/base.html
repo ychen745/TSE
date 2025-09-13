@@ -8,11 +8,35 @@
 </head>
 <body>
   <header class="site-header">
+  <a href="{{ url_for('index') }}" class="logo">
+    <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" />
+  </a>
     <h1>AI <span class="accent">Trading Strategy</span> Explainer</h1>
+    <nav class="nav-right">
+        {% if session.get('username') %}
+          <span class="muted hide-on-mobile">Signed in as {{ session['username'] }}</span>
+          <form method="post" action="{{ url_for('auth.logout_post') }}" style="display:inline;">
+            <button type="submit" class="btn-secondary">Logout</button>
+          </form>
+        {% else %}
+          <a class="btn-secondary" href="{{ url_for('auth.login_page') }}">Login</a>
+          <a class="btn">Sign up</a>
+{#          <a class="btn" href="{{ url_for('auth.signup_page') }}">Sign up</a>#}
+        {% endif %}
+    </nav>
   </header>
   <main class="container">
     {% block content %}{% endblock %}
   </main>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul class="flashes">
+          {% for category, message in messages %}
+            <li class="{{ category }}">{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+  {% endwith %}
   <script defer src="{{ url_for('static', filename='app.js') }}"></script>
 </body>
 </html>
