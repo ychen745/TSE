@@ -27,24 +27,17 @@ def create_app():
     app.config.from_object(Config)
 
     db.init_app(app)
-    with app.app_context():
-        db.create_all()
-
     migrate.init_app(app, db)
     login_manager.init_app(app)
-
-    @app.before_request
-    def _inject_user():
-        g.user_email = session.get("user_email")
 
     @login_manager.user_loader
     def load_user(user_id):
         from app.models import User
         return User.query.get(int(user_id))
 
-    os.makedirs(app.config.get("UPLOAD_FOLDER", "uploads"), exist_ok=True)
-    os.makedirs(app.config.get("RESULTS_FOLDER", "results"), exist_ok=True)
-    os.makedirs(app.config.get("BACKTEST_RESULTS_FOLDER", "bt_results"), exist_ok=True)
+    # os.makedirs(app.config.get("UPLOAD_FOLDER", "uploads"), exist_ok=True)
+    # os.makedirs(app.config.get("RESULTS_FOLDER", "results"), exist_ok=True)
+    # os.makedirs(app.config.get("BACKTEST_RESULTS_FOLDER", "bt_results"), exist_ok=True)
 
     # register blueprints
     from .routes.auth_routes import auth_bp

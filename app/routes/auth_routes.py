@@ -81,9 +81,7 @@ def login_post():
 @auth_bp.post("/logout")
 # @login_required
 def logout_post():
-    session.pop("user_id", None)
-    session.pop("username", None)
-    session.pop("user_role", None)
+    session.clear()
     logout_user()
     return _resp({"ok": True}, 200, redirect_to=url_for("index"))
 
