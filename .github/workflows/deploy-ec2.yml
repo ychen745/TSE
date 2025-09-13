@@ -46,7 +46,6 @@ jobs:
           AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
           AWS_REGION: ${{ secrets.AWS_REGION }}
           ECR_REPO: ${{ secrets.ECR_REPO }}
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
           IMAGE_URI=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO:${{ github.sha }}
           docker build -t $IMAGE_URI .
@@ -65,6 +64,7 @@ jobs:
               docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
             docker rm -f tse-app 2>/dev/null || true
             docker run -d --name tse-app --restart unless-stopped \
+              -e OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }} \
               -e PORT=8080 \
               -e APP_MODULE='app:create_app()' \
               -p 8080:8080 \
